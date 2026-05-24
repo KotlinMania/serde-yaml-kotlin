@@ -57,10 +57,18 @@ kotlin {
         binaries.framework { baseName = "SerdeYaml"; xcf.add(this) }
     }
     iosSimulatorArm64 {
-        binaries.framework { baseName = "SerdeYaml"; xcf.add(this) }
+        binaries.framework {
+            baseName = "SerdeYaml"
+            isStatic = true
+            xcf.add(this)
+        }
     }
     iosX64 {
-        binaries.framework { baseName = "SerdeYaml"; xcf.add(this) }
+        binaries.framework {
+            baseName = "SerdeYaml"
+            isStatic = true
+            xcf.add(this)
+        }
     }
 
     tvosArm64 {
