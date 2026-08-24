@@ -12,7 +12,7 @@ public typealias HashLikeValue = Value
  */
 public class Mapping internal constructor(
     private val map: LinkedHashMap<Value, Value>,
-) : MutableMap<Value, Value> by map, Comparable<Mapping> {
+) : Map<Value, Value> by map, Comparable<Mapping> {
 
     public constructor() : this(LinkedHashMap())
 
@@ -31,6 +31,8 @@ public class Mapping internal constructor(
     }
 
     public fun insert(k: Value, v: Value): Value? = map.put(k, v)
+
+    public fun getOrPut(key: Value, defaultValue: () -> Value): Value = map.getOrPut(key, defaultValue)
 
     public fun containsKey(index: String): Boolean = map.containsKey(Value.Str(index))
 
@@ -123,11 +125,21 @@ public class Mapping internal constructor(
 
     override fun isEmpty(): Boolean = map.isEmpty()
 
-    override fun clear(): Unit = map.clear()
+    public fun put(key: Value, value: Value): Value? = map.put(key, value)
+
+    public fun putAll(from: Map<out Value, Value>) {
+        map.putAll(from)
+    }
+
+    public operator fun set(key: Value, value: Value): Value? = map.put(key, value)
+
+    public fun remove(key: Value): Value? = map.remove(key)
+
+    public fun clear(): Unit = map.clear()
 
     public fun iter(): Iterable<Map.Entry<Value, Value>> = map.entries
 
-    public fun iter_mut(): MutableIterable<MutableMap.MutableEntry<Value, Value>> = map.entries
+    public fun iter_mut(): Iterable<Map.Entry<Value, Value>> = map.entries
 
     public fun intoKeys(): List<Value> = map.keys.toList()
 
