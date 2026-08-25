@@ -5,13 +5,13 @@ Based on AST analysis, here are the concrete next steps.
 ## Summary
 
 - **Files Present:** 24/24 (100.0%)
-- **Function parity:** 229/538 matched (target 547) — 42.6%
-- **Class/type parity:** 60/159 matched (target 162) — 37.7%
-- **Combined symbol parity:** 289/697 matched (target 709) — 41.5%
-- **Average inline-code cosine:** 0.13 (function body across 21 matched files)
-- **Average documentation cosine:** 0.14 (doc text across 21 matched files)
-- **Cheat-zeroed Files:** 19
-- **Critical Issues:** 22 files with <0.60 function similarity
+- **Function parity:** 229/538 matched (target 555) — 42.6%
+- **Class/type parity:** 60/159 matched (target 163) — 37.7%
+- **Combined symbol parity:** 289/697 matched (target 718) — 41.5%
+- **Average inline-code cosine:** 0.08 (function body across 20 matched files)
+- **Average documentation cosine:** 0.15 (doc text across 20 matched files)
+- **Cheat-zeroed Files:** 20
+- **Critical Issues:** 23 files with <0.60 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
 
@@ -33,7 +33,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Similarity:** 0.00
 - **Dependents:** 3
 - **Priority Score:** 3437510.0
-- **Functions:** 26/56 matched (target 66)
+- **Functions:** 26/56 matched (target 71)
 - **Missing functions:** `keys`, `values`, `values_mut`, `equivalent`, `hash`, `is_key_into`, `index_into`, `index_into_mut`, `swap_remove_from`, `swap_remove_entry_from`, `shift_remove_from`, `shift_remove_entry_from`, `partial_cmp`, `total_cmp`, `iter_cmp_by`, `index`, `index_mut`, `extend`, `from_iter`, `into_iter`, `or_insert_with`, `and_modify`, `into_mut`, `into_key`, `serialize`, `deserialize`, `expecting`, `visit_unit`, `visit_map`, `fmt`
 - **Types:** 6/19 matched (target 8)
 - **Missing types:** `Index`, `Output`, `Iter`, `Item`, `IntoIter`, `IterMut`, `Keys`, `IntoKeys`, `Values`, `ValuesMut`, `IntoValues`, `Visitor`, `Value`
@@ -230,14 +230,17 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 19. lib
 
-- **Target:** `serdeyaml.Lib`
-- **Similarity:** 1.00
+- **Target:** `serdeyaml.Lib [STUB] [PROVENANCE-FALLBACK]`
+- **Similarity:** 0.00
 - **Dependents:** 0
-- **Priority Score:** 10100.0
-- **Functions:** 0/0 matched
+- **Priority Score:** 10110.0
+- **Functions:** 0/0 matched (target 3)
 - **Missing functions:** _none_
-- **Types:** 0/1 matched
+- **Types:** 0/1 matched (target 2)
 - **Missing types:** `Sealed`
+- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `src/lib.rs` vs expected `lib.rs`
+- **Proposed provenance header:** `// port-lint: source lib.rs` (current: `// port-lint: source src/lib.rs`)
+- **Lint issues:** 1
 
 ### 20. libyaml.parser
 
