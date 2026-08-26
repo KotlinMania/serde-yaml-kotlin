@@ -8,8 +8,8 @@ Based on AST analysis, here are the concrete next steps.
 - **Function parity:** 229/538 matched (target 555) — 42.6%
 - **Class/type parity:** 60/159 matched (target 163) — 37.7%
 - **Combined symbol parity:** 289/697 matched (target 718) — 41.5%
-- **Average inline-code cosine:** 0.08 (function body across 20 matched files)
-- **Average documentation cosine:** 0.15 (doc text across 20 matched files)
+- **Average inline-code cosine:** 0.08 (function body across 21 matched files)
+- **Average documentation cosine:** 0.14 (doc text across 21 matched files)
 - **Cheat-zeroed Files:** 20
 - **Critical Issues:** 23 files with <0.60 function similarity
 
@@ -230,7 +230,7 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 19. lib
 
-- **Target:** `serdeyaml.Lib [STUB] [PROVENANCE-FALLBACK]`
+- **Target:** `serdeyaml.Lib [ZERO]`
 - **Similarity:** 0.00
 - **Dependents:** 0
 - **Priority Score:** 10110.0
@@ -238,9 +238,6 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing functions:** _none_
 - **Types:** 0/1 matched (target 2)
 - **Missing types:** `Sealed`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `src/lib.rs` vs expected `lib.rs`
-- **Proposed provenance header:** `// port-lint: source lib.rs` (current: `// port-lint: source src/lib.rs`)
-- **Lint issues:** 1
 
 ### 20. libyaml.parser
 
