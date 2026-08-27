@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml
 
-// port-lint: tests tests/test_value.rs
+// port-lint: tests serde_yaml/tests/test_value.rs
 
 import io.github.kotlinmania.serdeyaml.value.Tag
 import io.github.kotlinmania.serdeyaml.value.TaggedValue

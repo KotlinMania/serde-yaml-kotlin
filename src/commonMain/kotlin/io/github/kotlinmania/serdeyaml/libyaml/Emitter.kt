@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml.libyaml
 
-// port-lint: source libyaml/emitter.rs
+// port-lint: source serde_yaml/src/libyaml/emitter.rs
 
 public sealed class EmitterError {
     public data class Libyaml(val error: io.github.kotlinmania.serdeyaml.libyaml.Error) : EmitterError()
