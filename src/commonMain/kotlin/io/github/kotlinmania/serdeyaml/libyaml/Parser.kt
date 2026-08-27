@@ -11,7 +11,9 @@ public enum class ScalarStyle {
     Folded,
 }
 
-public class LossySlice(public val bytes: ByteArray) {
+public class LossySlice(
+    public val bytes: ByteArray,
+) {
     public fun fmt(sb: StringBuilder) {
         CStr.debug_lossy(bytes, sb)
     }
@@ -25,14 +27,31 @@ public class LossySlice(public val bytes: ByteArray) {
 
 public sealed class Event {
     public object StreamStart : Event()
+
     public object StreamEnd : Event()
+
     public object DocumentStart : Event()
+
     public object DocumentEnd : Event()
-    public data class Alias(public val anchor: Anchor) : Event()
-    public data class Scalar(public val scalar: io.github.kotlinmania.serdeyaml.libyaml.Scalar) : Event()
-    public data class SequenceStart(public val sequenceStart: io.github.kotlinmania.serdeyaml.libyaml.SequenceStart) : Event()
+
+    public data class Alias(
+        public val anchor: Anchor,
+    ) : Event()
+
+    public data class Scalar(
+        public val scalar: io.github.kotlinmania.serdeyaml.libyaml.Scalar,
+    ) : Event()
+
+    public data class SequenceStart(
+        public val sequenceStart: io.github.kotlinmania.serdeyaml.libyaml.SequenceStart,
+    ) : Event()
+
     public object SequenceEnd : Event()
-    public data class MappingStart(public val mappingStart: io.github.kotlinmania.serdeyaml.libyaml.MappingStart) : Event()
+
+    public data class MappingStart(
+        public val mappingStart: io.github.kotlinmania.serdeyaml.libyaml.MappingStart,
+    ) : Event()
+
     public object MappingEnd : Event()
 }
 
@@ -57,13 +76,19 @@ public class Scalar(
     )
 
     public fun asString(): String = value.decodeToString()
+
     public fun valueString(): String = value.decodeToString()
 
     public fun fmt(sb: StringBuilder) {
-        sb.append("Scalar(anchor=").append(anchor)
-            .append(", tag=").append(tag)
-            .append(", value=").append(LossySlice(value))
-            .append(", style=").append(style)
+        sb
+            .append("Scalar(anchor=")
+            .append(anchor)
+            .append(", tag=")
+            .append(tag)
+            .append(", value=")
+            .append(LossySlice(value))
+            .append(", style=")
+            .append(style)
             .append(")")
     }
 
@@ -77,9 +102,9 @@ public class Scalar(
         if (this === other) return true
         if (other !is Scalar) return false
         return anchor == other.anchor &&
-                tag == other.tag &&
-                value.contentEquals(other.value) &&
-                style == other.style
+            tag == other.tag &&
+            value.contentEquals(other.value) &&
+            style == other.style
     }
 
     override fun hashCode(): Int {
@@ -101,7 +126,9 @@ public data class MappingStart(
     public var tag: Tag? = null,
 )
 
-public class Anchor(public val bytes: ByteArray) : Comparable<Anchor> {
+public class Anchor(
+    public val bytes: ByteArray,
+) : Comparable<Anchor> {
     public constructor(string: String) : this(string.encodeToByteArray())
 
     public fun asString(): String = bytes.decodeToString()
@@ -135,19 +162,56 @@ public class Anchor(public val bytes: ByteArray) : Comparable<Anchor> {
 public sealed class YamlToken {
     public abstract val mark: Mark
 
-    public data class DocStart(override val mark: Mark) : YamlToken()
-    public data class DocEnd(override val mark: Mark) : YamlToken()
-    public data class AnchorTok(val name: String, override val mark: Mark) : YamlToken()
-    public data class AliasTok(val name: String, override val mark: Mark) : YamlToken()
-    public data class TagTok(val name: String, override val mark: Mark) : YamlToken()
-    public data class ScalarTok(val value: String, val style: ScalarStyle, val raw: String? = null, override val mark: Mark) : YamlToken()
-    public data class SeqStartTok(override val mark: Mark) : YamlToken()
-    public data class SeqEndTok(override val mark: Mark) : YamlToken()
-    public data class MapStartTok(override val mark: Mark) : YamlToken()
-    public data class MapEndTok(override val mark: Mark) : YamlToken()
+    public data class DocStart(
+        override val mark: Mark,
+    ) : YamlToken()
+
+    public data class DocEnd(
+        override val mark: Mark,
+    ) : YamlToken()
+
+    public data class AnchorTok(
+        val name: String,
+        override val mark: Mark,
+    ) : YamlToken()
+
+    public data class AliasTok(
+        val name: String,
+        override val mark: Mark,
+    ) : YamlToken()
+
+    public data class TagTok(
+        val name: String,
+        override val mark: Mark,
+    ) : YamlToken()
+
+    public data class ScalarTok(
+        val value: String,
+        val style: ScalarStyle,
+        val raw: String? = null,
+        override val mark: Mark,
+    ) : YamlToken()
+
+    public data class SeqStartTok(
+        override val mark: Mark,
+    ) : YamlToken()
+
+    public data class SeqEndTok(
+        override val mark: Mark,
+    ) : YamlToken()
+
+    public data class MapStartTok(
+        override val mark: Mark,
+    ) : YamlToken()
+
+    public data class MapEndTok(
+        override val mark: Mark,
+    ) : YamlToken()
 }
 
-public class YamlTokenizer(private val text: String) {
+public class YamlTokenizer(
+    private val text: String,
+) {
     public fun tokenize(): List<YamlToken> {
         val tokens = mutableListOf<YamlToken>()
         val lines = text.lines()
@@ -299,7 +363,9 @@ public class YamlTokenizer(private val text: String) {
     }
 }
 
-public class Parser(private val input: ByteArray) {
+public class Parser(
+    private val input: ByteArray,
+) {
     public constructor(inputString: String) : this(inputString.encodeToByteArray())
 
     private var pos = 0
@@ -410,13 +476,14 @@ public class Parser(private val input: ByteArray) {
                     return idx + 1
                 }
                 is YamlToken.ScalarTok -> {
-                    val sc = Scalar(
-                        anchor = anchor,
-                        tag = tag,
-                        value = tok.value.encodeToByteArray(),
-                        style = tok.style,
-                        repr = tok.raw?.encodeToByteArray(),
-                    )
+                    val sc =
+                        Scalar(
+                            anchor = anchor,
+                            tag = tag,
+                            value = tok.value.encodeToByteArray(),
+                            style = tok.style,
+                            repr = tok.raw?.encodeToByteArray(),
+                        )
                     eventQueue.add(Pair(Event.Scalar(sc), tok.mark))
                     return idx + 1
                 }
@@ -468,6 +535,8 @@ public class Parser(private val input: ByteArray) {
     }
 }
 
-public class ParserPinned(public val input: ByteArray) {
+public class ParserPinned(
+    public val input: ByteArray,
+) {
     public fun drop() {}
 }

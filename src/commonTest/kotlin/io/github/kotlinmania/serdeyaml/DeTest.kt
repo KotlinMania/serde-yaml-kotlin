@@ -6,18 +6,17 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class DeTest {
-
     @Test
     fun testBorrowed() {
-        val yaml = """
+        val yaml =
+            """
             - plain nonàscii
             - 'single quoted'
             - "double quoted"
-        """.trimIndent()
+            """.trimIndent()
         val value = fromStr(yaml)
         assertTrue(value.isSequence())
         val seq = value.asSequence()!!
@@ -29,14 +28,15 @@ class DeTest {
 
     @Test
     fun testAlias() {
-        val yaml = """
+        val yaml =
+            """
             first:
               &alias
               1
             second:
               *alias
             third: 3
-        """.trimIndent()
+            """.trimIndent()
         val value = fromStr(yaml)
         assertTrue(value.isMapping())
         val map = value.asMapping()!!
@@ -47,10 +47,11 @@ class DeTest {
 
     @Test
     fun testOption() {
-        val yaml = """
+        val yaml =
+            """
             b:
             c: true
-        """.trimIndent()
+            """.trimIndent()
         val value = fromStr(yaml)
         assertTrue(value.isMapping())
         val map = value.asMapping()!!
@@ -60,7 +61,8 @@ class DeTest {
 
     @Test
     fun testOptionAlias() {
-        val yaml = """
+        val yaml =
+            """
             none_f:
               &none_f
               ~
@@ -87,7 +89,7 @@ class DeTest {
             d: *some_f
             e: *some_s
             f: *some_b
-        """.trimIndent()
+            """.trimIndent()
         val value = fromStr(yaml)
         assertTrue(value.isMapping())
         val map = value.asMapping()!!
@@ -101,7 +103,8 @@ class DeTest {
 
     @Test
     fun testEnumAlias() {
-        val yaml = """
+        val yaml =
+            """
             aref:
               &aref
               A
@@ -113,7 +116,7 @@ class DeTest {
 
             a: *aref
             b: *bref
-        """.trimIndent()
+            """.trimIndent()
         val value = fromStr(yaml)
         assertTrue(value.isMapping())
         val map = value.asMapping()!!
@@ -129,7 +132,8 @@ class DeTest {
 
     @Test
     fun testEnumRepresentations() {
-        val yaml = """
+        val yaml =
+            """
             - Unit
             - 'Unit'
             - !Unit
@@ -146,7 +150,7 @@ class DeTest {
             - !String '...'
             - !String ...
             - !Number 0
-        """.trimIndent()
+            """.trimIndent()
         val value = fromStr(yaml)
         assertTrue(value.isSequence())
         val seq = value.asSequence()!!
@@ -155,19 +159,21 @@ class DeTest {
 
     @Test
     fun testNumberAsString() {
-        val yaml = """
+        val yaml =
+            """
             value: 340282366920938463463374607431768211457
-        """.trimIndent()
+            """.trimIndent()
         val value = fromStr(yaml)
         assertTrue(value.isMapping())
     }
 
     @Test
     fun testEmptyString() {
-        val yaml = """
+        val yaml =
+            """
             empty:
             tilde: ~
-        """.trimIndent()
+            """.trimIndent()
         val value = fromStr(yaml)
         assertTrue(value.isMapping())
         val map = value.asMapping()!!
@@ -177,10 +183,11 @@ class DeTest {
 
     @Test
     fun testNumberAliasAsString() {
-        val yaml = """
+        val yaml =
+            """
             version: &a 1.10
             value: *a
-        """.trimIndent()
+            """.trimIndent()
         val value = fromStr(yaml)
         assertTrue(value.isMapping())
         val map = value.asMapping()!!
@@ -189,11 +196,12 @@ class DeTest {
 
     @Test
     fun testDeMapping() {
-        val yaml = """
+        val yaml =
+            """
             substructure:
               a: 'foo'
               b: 'bar'
-        """.trimIndent()
+            """.trimIndent()
         val value = fromStr(yaml)
         assertTrue(value.isMapping())
         val map = value.asMapping()!!
@@ -213,30 +221,31 @@ class DeTest {
 
     @Test
     fun testNumbers() {
-        val cases = listOf(
-            "0xF0" to "240",
-            "+0xF0" to "240",
-            "-0xF0" to "-240",
-            "0o70" to "56",
-            "+0o70" to "56",
-            "-0o70" to "-56",
-            "0b10" to "2",
-            "+0b10" to "2",
-            "-0b10" to "-2",
-            "127" to "127",
-            "+127" to "127",
-            "-127" to "-127",
-            ".inf" to ".inf",
-            ".Inf" to ".inf",
-            ".INF" to ".inf",
-            "-.inf" to "-.inf",
-            "-.Inf" to "-.inf",
-            "-.INF" to "-.inf",
-            ".nan" to ".nan",
-            ".NaN" to ".nan",
-            ".NAN" to ".nan",
-            "0.1" to "0.1",
-        )
+        val cases =
+            listOf(
+                "0xF0" to "240",
+                "+0xF0" to "240",
+                "-0xF0" to "-240",
+                "0o70" to "56",
+                "+0o70" to "56",
+                "-0o70" to "-56",
+                "0b10" to "2",
+                "+0b10" to "2",
+                "-0b10" to "-2",
+                "127" to "127",
+                "+127" to "127",
+                "-127" to "-127",
+                ".inf" to ".inf",
+                ".Inf" to ".inf",
+                ".INF" to ".inf",
+                "-.inf" to "-.inf",
+                "-.Inf" to "-.inf",
+                "-.INF" to "-.inf",
+                ".nan" to ".nan",
+                ".NaN" to ".nan",
+                ".NAN" to ".nan",
+                "0.1" to "0.1",
+            )
         for ((input, expected) in cases) {
             val value = fromStr(input)
             assertTrue(value.isNumber(), "expected number for $input")
@@ -244,10 +253,26 @@ class DeTest {
             assertEquals(expected, num.toString())
         }
 
-        val nonNumbers = listOf(
-            "0127", "+0127", "-0127", "++.inf", "+-.inf", "++1", "+-1", "-+1", "--1", "0x+1", "0x-1",
-            "-0x+1", "-0x-1", "++0x1", "+-0x1", "-+0x1", "--0x1",
-        )
+        val nonNumbers =
+            listOf(
+                "0127",
+                "+0127",
+                "-0127",
+                "++.inf",
+                "+-.inf",
+                "++1",
+                "+-1",
+                "-+1",
+                "--1",
+                "0x+1",
+                "0x-1",
+                "-0x+1",
+                "-0x-1",
+                "++0x1",
+                "+-0x1",
+                "-+0x1",
+                "--0x1",
+            )
         for (input in nonNumbers) {
             val value = fromStr(input)
             assertTrue(value.isString(), "expected string for $input")
@@ -291,7 +316,8 @@ class DeTest {
 
     @Test
     fun testTagResolution() {
-        val yaml = """
+        val yaml =
+            """
             - null
             - Null
             - NULL
@@ -319,7 +345,7 @@ class DeTest {
             - off
             - Off
             - OFF
-        """.trimIndent()
+            """.trimIndent()
         val value = fromStr(yaml)
         assertTrue(value.isSequence())
         val seq = value.asSequence()!!
@@ -376,6 +402,4 @@ class DeTest {
         assertFails { Number.fromStr("null") }
         assertFails { Number.fromStr(" 1 ") }
     }
-
 }
-

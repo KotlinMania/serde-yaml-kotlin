@@ -5,7 +5,9 @@ package io.github.kotlinmania.serdeyaml.libyaml
 /**
  * YAML tag representation.
  */
-public class Tag(public val utf8: ByteArray) : Comparable<Tag> {
+public class Tag(
+    public val utf8: ByteArray,
+) : Comparable<Tag> {
     public val bytes: ByteArray
         get() = utf8
 
@@ -63,4 +65,3 @@ public class Tag(public val utf8: ByteArray) : Comparable<Tag> {
         public val FLOAT: Tag = Tag("tag:yaml.org,2002:float")
     }
 }
-

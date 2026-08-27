@@ -2,8 +2,6 @@ package io.github.kotlinmania.serdeyaml
 
 // port-lint: source mapping.rs
 
-import io.github.kotlinmania.serdeyaml.value.TaggedValue
-
 public typealias DuplicateKeyError = String
 public typealias HashLikeValue = Value
 
@@ -12,8 +10,8 @@ public typealias HashLikeValue = Value
  */
 public class Mapping internal constructor(
     private val map: LinkedHashMap<Value, Value>,
-) : Map<Value, Value> by map, Comparable<Mapping> {
-
+) : Map<Value, Value> by map,
+    Comparable<Mapping> {
     public constructor() : this(LinkedHashMap())
 
     public constructor(capacity: Int) : this(LinkedHashMap(capacity))
@@ -56,13 +54,12 @@ public class Mapping internal constructor(
 
     public fun get_mut(key: Value): Value? = getMut(key)
 
-    public fun entry(k: Value): Entry {
-        return if (map.containsKey(k)) {
+    public fun entry(k: Value): Entry =
+        if (map.containsKey(k)) {
             Entry.Occupied(OccupiedEntry(k, map))
         } else {
             Entry.Vacant(VacantEntry(k, map))
         }
-    }
 
     public fun remove(index: String): Value? = map.remove(Value.Str(index))
 
@@ -160,7 +157,13 @@ public class Mapping internal constructor(
             val vCmp = a.value.compareTo(b.value)
             if (vCmp != 0) return vCmp
         }
-        return if (iterA.hasNext()) 1 else if (iterB.hasNext()) -1 else 0
+        return if (iterA.hasNext()) {
+            1
+        } else if (iterB.hasNext()) {
+            -1
+        } else {
+            0
+        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -174,13 +177,19 @@ public class Mapping internal constructor(
     override fun toString(): String = map.toString()
 
     public sealed class Entry {
-        public data class Occupied(public val entry: OccupiedEntry) : Entry()
-        public data class Vacant(public val entry: VacantEntry) : Entry()
+        public data class Occupied(
+            public val entry: OccupiedEntry,
+        ) : Entry()
 
-        public fun orInsert(default: Value): Value = when (this) {
-            is Occupied -> entry.get()
-            is Vacant -> entry.insert(default)
-        }
+        public data class Vacant(
+            public val entry: VacantEntry,
+        ) : Entry()
+
+        public fun orInsert(default: Value): Value =
+            when (this) {
+                is Occupied -> entry.get()
+                is Vacant -> entry.insert(default)
+            }
 
         public fun or_insert(default: Value): Value = orInsert(default)
     }
@@ -190,12 +199,19 @@ public class Mapping internal constructor(
         private val map: LinkedHashMap<Value, Value>,
     ) {
         public fun key(): Value = key
+
         public fun get(): Value = map[key] ?: error("Occupied entry key missing")
+
         public fun getMut(): Value = get()
+
         public fun get_mut(): Value = getMut()
+
         public fun insert(value: Value): Value = map.put(key, value) ?: value
+
         public fun remove(): Value = map.remove(key) ?: error("Occupied entry key missing")
+
         public fun removeEntry(): Pair<Value, Value> = Pair(key, remove())
+
         public fun remove_entry(): Pair<Value, Value> = removeEntry()
     }
 
@@ -204,6 +220,7 @@ public class Mapping internal constructor(
         private val map: LinkedHashMap<Value, Value>,
     ) {
         public fun key(): Value = key
+
         public fun insert(value: Value): Value {
             map[key] = value
             return value
@@ -212,8 +229,9 @@ public class Mapping internal constructor(
 
     public companion object {
         public fun new(): Mapping = Mapping()
+
         public fun with_capacity(capacity: Int): Mapping = Mapping(capacity)
+
         public fun withCapacity(capacity: Int): Mapping = Mapping(capacity)
     }
 }
-

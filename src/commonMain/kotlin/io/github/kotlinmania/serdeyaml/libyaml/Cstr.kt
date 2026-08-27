@@ -5,7 +5,9 @@ package io.github.kotlinmania.serdeyaml.libyaml
 /**
  * C string and lossy display/debug formatting.
  */
-public class CStr(public val bytes: ByteArray) {
+public class CStr(
+    public val bytes: ByteArray,
+) {
     public constructor(string: String) : this(string.encodeToByteArray())
 
     public fun len(): Int = bytes.size
@@ -84,4 +86,3 @@ public class CStr(public val bytes: ByteArray) {
 }
 
 public typealias Cstr = CStr
-

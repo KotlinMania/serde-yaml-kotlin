@@ -3,8 +3,13 @@ package io.github.kotlinmania.serdeyaml.libyaml
 // port-lint: source libyaml/emitter.rs
 
 public sealed class EmitterError {
-    public data class Libyaml(val error: io.github.kotlinmania.serdeyaml.libyaml.Error) : EmitterError()
-    public data class Io(val message: String) : EmitterError()
+    public data class Libyaml(
+        val error: io.github.kotlinmania.serdeyaml.libyaml.Error,
+    ) : EmitterError()
+
+    public data class Io(
+        val message: String,
+    ) : EmitterError()
 }
 
 public class EmitterPinned(
@@ -37,20 +42,36 @@ public data class EmitterMapping(
 
 public sealed class EmitterEvent {
     public object StreamStart : EmitterEvent()
+
     public object StreamEnd : EmitterEvent()
+
     public object DocumentStart : EmitterEvent()
+
     public object DocumentEnd : EmitterEvent()
-    public data class Scalar(public val scalar: EmitterScalar) : EmitterEvent()
-    public data class SequenceStart(public val sequence: EmitterSequence) : EmitterEvent()
+
+    public data class Scalar(
+        public val scalar: EmitterScalar,
+    ) : EmitterEvent()
+
+    public data class SequenceStart(
+        public val sequence: EmitterSequence,
+    ) : EmitterEvent()
+
     public object SequenceEnd : EmitterEvent()
-    public data class MappingStart(public val mapping: EmitterMapping) : EmitterEvent()
+
+    public data class MappingStart(
+        public val mapping: EmitterMapping,
+    ) : EmitterEvent()
+
     public object MappingEnd : EmitterEvent()
 }
 
 /**
  * Libyaml emitter wrapper.
  */
-public class Emitter(private val out: StringBuilder = StringBuilder()) {
+public class Emitter(
+    private val out: StringBuilder = StringBuilder(),
+) {
     private var writeError: String? = null
 
     public fun emit(event: EmitterEvent) {
@@ -78,10 +99,9 @@ public class Emitter(private val out: StringBuilder = StringBuilder()) {
 
     public fun flush() {}
 
-    public fun error(): EmitterError {
-        return writeError?.let { EmitterError.Io(it) }
+    public fun error(): EmitterError =
+        writeError?.let { EmitterError.Io(it) }
             ?: EmitterError.Libyaml(Error.emit_error("libyaml emitter error"))
-    }
 
     public fun drop() {}
 
@@ -90,8 +110,6 @@ public class Emitter(private val out: StringBuilder = StringBuilder()) {
     public companion object {
         public fun new(sb: StringBuilder): Emitter = Emitter(sb)
 
-        public fun write_handler(data: Any?, buffer: ByteArray, size: ULong): Int {
-            return 1
-        }
+        public fun write_handler(data: Any?, buffer: ByteArray, size: ULong): Int = 1
     }
 }

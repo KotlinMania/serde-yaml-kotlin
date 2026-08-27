@@ -10,7 +10,9 @@ public class Document(
     public val anchors: Map<String, Value> = emptyMap(),
 )
 
-public class Loader(private val input: String) {
+public class Loader(
+    private val input: String,
+) {
     private val cleanInput = input.removePrefix("\uFEFF")
     private val docs = splitDocuments(cleanInput)
     private var documentCount = 0
@@ -79,7 +81,6 @@ public class Loader(private val input: String) {
     }
 }
 
-
 internal class YamlParser(
     private val source: String,
     private val anchors: MutableMap<String, Value>,
@@ -134,9 +135,13 @@ internal class YamlParser(
     private fun getIndent(line: String): Int {
         var count = 0
         for (ch in line) {
-            if (ch == ' ') count++
-            else if (ch == '\t') count += 2
-            else break
+            if (ch == ' ') {
+                count++
+            } else if (ch == '\t') {
+                count += 2
+            } else {
+                break
+            }
         }
         return count
     }
@@ -201,14 +206,20 @@ internal class YamlParser(
         var depthBracket = 0
         for (i in s.indices) {
             val c = s[i]
-            if (c == '\'' && !inDouble) inSingle = !inSingle
-            else if (c == '"' && !inSingle) inDouble = !inDouble
-            else if (!inSingle && !inDouble) {
-                if (c == '{') depthBrace++
-                else if (c == '}') depthBrace--
-                else if (c == '[') depthBracket++
-                else if (c == ']') depthBracket--
-                else if (c == ':' && depthBrace == 0 && depthBracket == 0) {
+            if (c == '\'' && !inDouble) {
+                inSingle = !inSingle
+            } else if (c == '"' && !inSingle) {
+                inDouble = !inDouble
+            } else if (!inSingle && !inDouble) {
+                if (c == '{') {
+                    depthBrace++
+                } else if (c == '}') {
+                    depthBrace--
+                } else if (c == '[') {
+                    depthBracket++
+                } else if (c == ']') {
+                    depthBracket--
+                } else if (c == ':' && depthBrace == 0 && depthBracket == 0) {
                     if (i == s.length - 1 || s[i + 1].isWhitespace()) {
                         return i
                     }
@@ -228,9 +239,14 @@ internal class YamlParser(
             if (curIndent < indent) break
             val trimmed = line.trim()
             if (curIndent == indent && (trimmed.startsWith("- ") || trimmed == "-" || trimmed.startsWith("-#") || trimmed.startsWith("- #"))) {
-                var afterDash = if (trimmed.startsWith("- ")) trimmed.substring(2).trim()
-                                else if (trimmed.startsWith("-")) trimmed.substring(1).trim()
-                                else ""
+                var afterDash =
+                    if (trimmed.startsWith("- ")) {
+                        trimmed.substring(2).trim()
+                    } else if (trimmed.startsWith("-")) {
+                        trimmed.substring(1).trim()
+                    } else {
+                        ""
+                    }
                 val commentIdx = afterDash.indexOf('#')
                 val effectiveAfterDash = if (commentIdx >= 0) afterDash.substring(0, commentIdx).trim() else afterDash
                 lineIdx++
@@ -373,7 +389,9 @@ internal class YamlParser(
             val curIndent = getIndent(line)
             val trimmed = line.trim()
             if (trimmed.startsWith("@") || trimmed.startsWith("`")) {
-                val mark = io.github.kotlinmania.serdeyaml.libyaml.Mark(0uL, lineIdx.toULong(), 0uL)
+                val mark =
+                    io.github.kotlinmania.serdeyaml.libyaml
+                        .Mark(0uL, lineIdx.toULong(), 0uL)
                 throw Error(ErrorImpl.Message("scan error: invalid character '$trimmed'", Pos(mark, ".")))
             }
 
@@ -389,7 +407,6 @@ internal class YamlParser(
         return Value.Str(sb.toString())
     }
 
-
     private fun parseBlockScalar(indicator: String): Value.Str {
         val stripChomping = indicator.contains("-")
         val keepChomping = indicator.contains("+")
@@ -400,7 +417,9 @@ internal class YamlParser(
         if (baseIndent == 0) {
             val trimmedLine = lines[lineIdx].trim()
             if (trimmedLine.startsWith("@") || trimmedLine.startsWith("`")) {
-                val mark = io.github.kotlinmania.serdeyaml.libyaml.Mark(0uL, lineIdx.toULong(), 0uL)
+                val mark =
+                    io.github.kotlinmania.serdeyaml.libyaml
+                        .Mark(0uL, lineIdx.toULong(), 0uL)
                 throw Error(ErrorImpl.Message("scan error: invalid character '$trimmedLine'", Pos(mark, ".")))
             }
         }
@@ -412,8 +431,11 @@ internal class YamlParser(
             lineIdx++
             val content = if (line.length >= baseIndent) line.substring(baseIndent) else ""
             if (sb.isNotEmpty()) {
-                if (isFolded && content.isNotEmpty()) sb.append(" ")
-                else sb.append("\n")
+                if (isFolded && content.isNotEmpty()) {
+                    sb.append(" ")
+                } else {
+                    sb.append("\n")
+                }
             }
             sb.append(content)
         }
@@ -425,7 +447,6 @@ internal class YamlParser(
         }
         return Value.Str(res)
     }
-
 
     private fun parseFlowMapping(s: String): Value {
         val inner = s.substring(1, s.length - 1).trim()
@@ -466,14 +487,20 @@ internal class YamlParser(
 
         for (i in s.indices) {
             val c = s[i]
-            if (c == '\'' && !inDouble) inSingle = !inSingle
-            else if (c == '"' && !inSingle) inDouble = !inDouble
-            else if (!inSingle && !inDouble) {
-                if (c == '{') depthBrace++
-                else if (c == '}') depthBrace--
-                else if (c == '[') depthBracket++
-                else if (c == ']') depthBracket--
-                else if (c == ',' && depthBrace == 0 && depthBracket == 0) {
+            if (c == '\'' && !inDouble) {
+                inSingle = !inSingle
+            } else if (c == '"' && !inSingle) {
+                inDouble = !inDouble
+            } else if (!inSingle && !inDouble) {
+                if (c == '{') {
+                    depthBrace++
+                } else if (c == '}') {
+                    depthBrace--
+                } else if (c == '[') {
+                    depthBracket++
+                } else if (c == ']') {
+                    depthBracket--
+                } else if (c == ',' && depthBrace == 0 && depthBracket == 0) {
                     items.add(s.substring(start, i))
                     start = i + 1
                 }
@@ -537,10 +564,13 @@ internal class YamlParser(
                     val num = Number.fromStrOrNull(scalarVal.trim())
                     return if (num != null) Value.Number(num) else Value.Str(scalarVal)
                 }
-                val scalarVal = if (rest.isEmpty()) {
-                    skipBlanksAndComments()
-                    if (lineIdx < lines.size) parseBlockNode(getIndent(lines[lineIdx])).asStr() ?: "" else ""
-                } else rest
+                val scalarVal =
+                    if (rest.isEmpty()) {
+                        skipBlanksAndComments()
+                        if (lineIdx < lines.size) parseBlockNode(getIndent(lines[lineIdx])).asStr() ?: "" else ""
+                    } else {
+                        rest
+                    }
                 val num = Number.fromStrOrNull(scalarVal.trim())
                 return if (num != null) Value.Number(num) else Value.Str(scalarVal)
             }
@@ -610,7 +640,6 @@ internal class YamlParser(
         }
 
         return Value.Str(str)
-
     }
 
     private fun unescapeDoubleQuoted(s: String): String {

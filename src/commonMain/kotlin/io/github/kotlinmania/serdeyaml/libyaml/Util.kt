@@ -5,7 +5,9 @@ package io.github.kotlinmania.serdeyaml.libyaml
 /**
  * Pure Kotlin representation of Owned memory pointer.
  */
-public class Owned<T>(public var value: T?) {
+public class Owned<T>(
+    public var value: T?,
+) {
     public fun get(): T = value ?: error("Uninitialized Owned")
 
     public fun set(newValue: T) {
@@ -29,5 +31,6 @@ public class Owned<T>(public var value: T?) {
     }
 }
 
-public class InitPtr<T>(public var ptr: T?)
-
+public class InitPtr<T>(
+    public var ptr: T?,
+)

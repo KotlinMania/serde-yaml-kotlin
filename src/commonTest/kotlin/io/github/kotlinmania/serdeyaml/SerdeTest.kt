@@ -8,9 +8,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-
 class SerdeTest {
-
     @Test
     fun testDefault() {
         assertEquals(Value.Null, Value.Null)
@@ -75,11 +73,14 @@ class SerdeTest {
 
     @Test
     fun testVec() {
-        val thing = Value.Sequence(mutableListOf(
-            Value.Number(Number.from(1)),
-            Value.Number(Number.from(2)),
-            Value.Number(Number.from(3))
-        ))
+        val thing =
+            Value.Sequence(
+                mutableListOf(
+                    Value.Number(Number.from(1)),
+                    Value.Number(Number.from(2)),
+                    Value.Number(Number.from(3)),
+                ),
+            )
         val yaml = toString(thing)
         assertEquals("- 1\n- 2\n- 3\n", yaml)
         assertEquals(thing, fromStr(yaml))
@@ -128,14 +129,15 @@ class SerdeTest {
 
     @Test
     fun testValue() {
-        val seq = mutableListOf(
-            Value.Null,
-            Value.Bool(true),
-            Value.Number(Number.from(65535)),
-            Value.Number(Number.from(0.54321)),
-            Value.Str("s"),
-            Value.Mapping(Mapping())
-        )
+        val seq =
+            mutableListOf(
+                Value.Null,
+                Value.Bool(true),
+                Value.Number(Number.from(65535)),
+                Value.Number(Number.from(0.54321)),
+                Value.Str("s"),
+                Value.Mapping(Mapping()),
+            )
         val map = Mapping()
         map[Value.Str("type")] = Value.Str("primary")
         map[Value.Str("config")] = Value.Sequence(seq)
@@ -144,5 +146,3 @@ class SerdeTest {
         assertEquals(thing, fromStr(yaml))
     }
 }
-
-

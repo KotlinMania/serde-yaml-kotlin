@@ -7,7 +7,9 @@ import io.github.kotlinmania.serdeyaml.Value
 /**
  * A representation of YAML's `!Tag` syntax, used for enums.
  */
-public class Tag(public val string: String) : Comparable<Tag> {
+public class Tag(
+    public val string: String,
+) : Comparable<Tag> {
     init {
         require(string.isNotEmpty()) { "empty YAML tag is not allowed" }
     }
@@ -49,7 +51,6 @@ public data class TaggedValue(
     public var tag: Tag,
     public var value: Value,
 ) : Comparable<TaggedValue> {
-
     public fun fmt(sb: StringBuilder) {
         sb.append(toString())
     }
@@ -71,33 +72,37 @@ public data class TaggedValue(
     override fun toString(): String = "$tag $value"
 }
 
-public fun nobang(maybeBanged: String): String {
-    return if (maybeBanged.startsWith("!")) {
+public fun nobang(maybeBanged: String): String =
+    if (maybeBanged.startsWith("!")) {
         maybeBanged.substring(1)
     } else {
         maybeBanged
     }
-}
 
 public sealed class MaybeTag<out T> {
-    public data class Tag(val tag: String) : MaybeTag<Nothing>()
-    public data class NotTag<T>(val value: T) : MaybeTag<T>()
+    public data class Tag(
+        val tag: String,
+    ) : MaybeTag<Nothing>()
+
+    public data class NotTag<T>(
+        val value: T,
+    ) : MaybeTag<T>()
 }
 
 public fun checkForTag(value: String): MaybeTag<String> = check_for_tag(value)
 
-public fun check_for_tag(value: String): MaybeTag<String> {
-    return if (value.startsWith("!") && value.length > 1) {
+public fun check_for_tag(value: String): MaybeTag<String> =
+    if (value.startsWith("!") && value.length > 1) {
         MaybeTag.Tag(value.substring(1))
     } else {
         MaybeTag.NotTag(value)
     }
-}
 
 public class TagVisitor {
     public fun expecting(sb: StringBuilder) {
         sb.append("a YAML tag")
     }
+
     public fun visit_str(v: String): Tag = Tag.new(v)
 }
 
@@ -112,4 +117,3 @@ public class TaggedMapVisitor {
         sb.append("a YAML tagged map")
     }
 }
-

@@ -7,15 +7,15 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class ErrorTest {
-
     @Test
     fun testTwoDocumentsError() {
-        val yaml = """
+        val yaml =
+            """
             ---
             0
             ---
             1
-        """.trimIndent()
+            """.trimIndent()
         assertFailsWith<Error> {
             fromStr(yaml)
         }
@@ -23,14 +23,14 @@ class ErrorTest {
 
     @Test
     fun testDuplicateKeys() {
-        val yaml = """
+        val yaml =
+            """
             ---
             thing: true
             thing: false
-        """.trimIndent()
+            """.trimIndent()
         val value = fromStr(yaml)
         assertEquals(Value.Bool(false), value[Value.Str("thing")])
-
     }
 
     @Test
@@ -49,10 +49,11 @@ class ErrorTest {
 
     @Test
     fun testUnknownAnchor() {
-        val yaml = """
+        val yaml =
+            """
             ---
             *some
-        """.trimIndent()
+            """.trimIndent()
         assertFailsWith<Error> {
             fromStr(yaml)
         }
@@ -60,12 +61,13 @@ class ErrorTest {
 
     @Test
     fun testSecondDocumentSyntaxError() {
-        val yaml = """
+        val yaml =
+            """
             ---
             0
             ---
             ]
-        """.trimIndent()
+            """.trimIndent()
         val de = Deserializer.from_str(yaml).iterator()
         val first = de.next()
         assertEquals(Value.Number(Number.from(0)), first)
@@ -74,4 +76,3 @@ class ErrorTest {
         }
     }
 }
-

@@ -2,9 +2,9 @@ package io.github.kotlinmania.serdeyaml
 
 // port-lint: source ser.rs
 
-import io.github.kotlinmania.serdeyaml.value.TaggedValue
-
-public class Indent(public var level: Int = 0)
+public class Indent(
+    public var level: Int = 0,
+)
 
 public enum class State {
     Start,
@@ -13,22 +13,29 @@ public enum class State {
     End,
 }
 
-public class SerializerMap(private val map: Mapping = Mapping()) {
+public class SerializerMap(
+    private val map: Mapping = Mapping(),
+) {
     public fun serialize_entry(key: Value, value: Value) {
         map.insert(key, value)
     }
+
     public fun end(): Value = Value.Mapping(map)
 }
 
-public class SerializerStruct(private val map: Mapping = Mapping()) {
+public class SerializerStruct(
+    private val map: Mapping = Mapping(),
+) {
     public fun serialize_field(key: String, value: Value) {
         map.insert(Value.Str(key), value)
     }
+
     public fun end(): Value = Value.Mapping(map)
 }
 
-public class Serializer(private val out: StringBuilder = StringBuilder()) {
-
+public class Serializer(
+    private val out: StringBuilder = StringBuilder(),
+) {
     public fun serialize(value: Value): String {
         formatValue(value, 0, false)
         if (!out.endsWith("\n")) {
@@ -52,7 +59,6 @@ public class Serializer(private val out: StringBuilder = StringBuilder()) {
         }
     }
 
-
     private fun formatString(s: String) {
         if (s.isEmpty()) {
             out.append("''")
@@ -66,17 +72,40 @@ public class Serializer(private val out: StringBuilder = StringBuilder()) {
             }
             return
         }
-        val needsQuotes = s == "true" || s == "false" || s == "null" || s == "~" ||
-                s.startsWith("@") || s.startsWith("`") || s.startsWith("%") ||
-                s.contains(": ") || s.endsWith(":") || s.contains("#") ||
-                s.startsWith("[") || s.startsWith("{") || s.startsWith("&") ||
-                s.startsWith("*") || s.startsWith("!") || s.startsWith("|") ||
-                s.startsWith(">") || s.startsWith("'") || s.startsWith("\"") ||
-                s.startsWith("- ") || s == "-" || s.startsWith("?") ||
-                s.toLongOrNull() != null || s.toDoubleOrNull() != null
+        val needsQuotes =
+            s == "true" ||
+                s == "false" ||
+                s == "null" ||
+                s == "~" ||
+                s.startsWith("@") ||
+                s.startsWith("`") ||
+                s.startsWith("%") ||
+                s.contains(": ") ||
+                s.endsWith(":") ||
+                s.contains("#") ||
+                s.startsWith("[") ||
+                s.startsWith("{") ||
+                s.startsWith("&") ||
+                s.startsWith("*") ||
+                s.startsWith("!") ||
+                s.startsWith("|") ||
+                s.startsWith(">") ||
+                s.startsWith("'") ||
+                s.startsWith("\"") ||
+                s.startsWith("- ") ||
+                s == "-" ||
+                s.startsWith("?") ||
+                s.toLongOrNull() != null ||
+                s.toDoubleOrNull() != null
 
         if (needsQuotes) {
-            val escaped = s.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t")
+            val escaped =
+                s
+                    .replace("\\", "\\\\")
+                    .replace("\"", "\\\"")
+                    .replace("\n", "\\n")
+                    .replace("\r", "\\r")
+                    .replace("\t", "\\t")
             out.append('"').append(escaped).append('"')
         } else {
             out.append(s)
@@ -129,52 +158,60 @@ public class Serializer(private val out: StringBuilder = StringBuilder()) {
         }
     }
 
-
     public companion object {
         public fun toString(value: Value): String = Serializer().serialize(value)
+
         public fun toVec(value: Value): ByteArray = toString(value).encodeToByteArray()
+
         public fun toWriter(writer: Appendable, value: Value) {
             writer.append(toString(value))
         }
 
         public fun to_string(value: Value): String = toString(value)
+
         public fun to_vec(value: Value): ByteArray = toVec(value)
+
         public fun to_writer(writer: Appendable, value: Value): Unit = toWriter(writer, value)
     }
 }
 
 public fun toString(value: Value): String = Serializer.toString(value)
+
 public fun toVec(value: Value): ByteArray = Serializer.toVec(value)
+
 public fun toWriter(writer: Appendable, value: Value): Unit = Serializer.toWriter(writer, value)
 
 public fun to_string(value: Value): String = toString(value)
+
 public fun to_vec(value: Value): ByteArray = toVec(value)
+
 public fun to_writer(writer: Appendable, value: Value): Unit = toWriter(writer, value)
+
 public fun to_value(value: Any?): Value = toValue(value)
 
-public fun toValue(value: Any?): Value = when (value) {
-    null -> Value.Null
-    is Value -> value
-    is Boolean -> Value.Bool(value)
-    is Byte -> Value.Number(Number.from(value))
-    is Short -> Value.Number(Number.from(value))
-    is Int -> Value.Number(Number.from(value))
-    is Long -> Value.Number(Number.from(value))
-    is UByte -> Value.Number(Number.from(value))
-    is UShort -> Value.Number(Number.from(value))
-    is UInt -> Value.Number(Number.from(value))
-    is ULong -> Value.Number(Number.from(value))
-    is Float -> Value.Number(Number.from(value))
-    is Double -> Value.Number(Number.from(value))
-    is String -> Value.Str(value)
-    is List<*> -> Value.Sequence(value.map { toValue(it) })
-    is Map<*, *> -> {
-        val m = Mapping()
-        for ((k, v) in value) {
-            m[toValue(k)] = toValue(v)
+public fun toValue(value: Any?): Value =
+    when (value) {
+        null -> Value.Null
+        is Value -> value
+        is Boolean -> Value.Bool(value)
+        is Byte -> Value.Number(Number.from(value))
+        is Short -> Value.Number(Number.from(value))
+        is Int -> Value.Number(Number.from(value))
+        is Long -> Value.Number(Number.from(value))
+        is UByte -> Value.Number(Number.from(value))
+        is UShort -> Value.Number(Number.from(value))
+        is UInt -> Value.Number(Number.from(value))
+        is ULong -> Value.Number(Number.from(value))
+        is Float -> Value.Number(Number.from(value))
+        is Double -> Value.Number(Number.from(value))
+        is String -> Value.Str(value)
+        is List<*> -> Value.Sequence(value.map { toValue(it) })
+        is Map<*, *> -> {
+            val m = Mapping()
+            for ((k, v) in value) {
+                m[toValue(k)] = toValue(v)
+            }
+            Value.Mapping(m)
         }
-        Value.Mapping(m)
+        else -> Value.Str(value.toString())
     }
-    else -> Value.Str(value.toString())
-}
-
