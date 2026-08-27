@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml
 
-// port-lint: source serde_yaml/src/lib.rs
+// port-lint: source lib.rs
 
 public typealias Sequence = List<Value>
 

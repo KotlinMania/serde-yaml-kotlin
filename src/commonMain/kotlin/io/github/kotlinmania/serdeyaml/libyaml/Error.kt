@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml.libyaml
 
-// port-lint: source serde_yaml/src/libyaml/error.rs
+// port-lint: source libyaml/error.rs
 
 public typealias Result<T> = kotlin.Result<T>
 
