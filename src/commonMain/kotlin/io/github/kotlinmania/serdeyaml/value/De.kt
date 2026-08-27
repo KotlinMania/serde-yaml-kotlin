@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml.value
 
-// port-lint: source value/de.rs
+// port-lint: source serde_yaml/src/value/de.rs
 
 import io.github.kotlinmania.serdeyaml.Deserializer as TopDeserializer
 import io.github.kotlinmania.serdeyaml.Error

@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml.libyaml
 
-// port-lint: source libyaml/parser.rs
+// port-lint: source serde_yaml/src/libyaml/parser.rs
 
 public enum class ScalarStyle {
     AnyStyle,
