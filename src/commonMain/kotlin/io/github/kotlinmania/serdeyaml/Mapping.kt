@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml
 
-// port-lint: source serde_yaml/src/mapping.rs
+// port-lint: source mapping.rs
 
 import io.github.kotlinmania.serdeyaml.value.TaggedValue
 

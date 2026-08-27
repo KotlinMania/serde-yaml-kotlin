@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml
 
-// port-lint: source serde_yaml/src/number.rs
+// port-lint: source number.rs
 
 /**
  * Represents a YAML number, whether integer or floating point.

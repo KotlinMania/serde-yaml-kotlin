@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml.libyaml
 
-// port-lint: source serde_yaml/src/libyaml/mod.rs
+// port-lint: source libyaml/mod.rs
 
 public typealias LibyamlError = io.github.kotlinmania.serdeyaml.libyaml.Error
 public typealias LibyamlMark = io.github.kotlinmania.serdeyaml.libyaml.Mark
