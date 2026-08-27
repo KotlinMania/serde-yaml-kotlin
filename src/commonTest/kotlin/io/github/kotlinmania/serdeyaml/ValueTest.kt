@@ -9,7 +9,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class ValueTest {
-
     @Test
     fun testNan() {
         val posNan = fromStr(".nan")
@@ -31,7 +30,8 @@ class ValueTest {
 
     @Test
     fun testMerge() {
-        val yaml = """
+        val yaml =
+            """
             ---
             - &CENTER { x: 1, y: 2 }
             - &LEFT { x: 0, y: 2 }
@@ -59,7 +59,7 @@ class ValueTest {
               << : [ *BIG, *LEFT, *SMALL ]
               x: 1
               label: center/big
-        """.trimIndent()
+            """.trimIndent()
 
         val value: Value = fromStr(yaml)
         val seq = value.asSequence()!!
@@ -71,7 +71,8 @@ class ValueTest {
 
     @Test
     fun testDebug() {
-        val yaml = """
+        val yaml =
+            """
             'Null': ~
             Bool: true
             Number: 1
@@ -80,7 +81,7 @@ class ValueTest {
               - true
             EmptySequence: []
             EmptyMapping: {}
-        """.trimIndent()
+            """.trimIndent()
 
         val value: Value = fromStr(yaml)
         assertTrue(value.isMapping())
@@ -105,7 +106,6 @@ class ValueTest {
         assertEquals(Value.Str("first"), deSeq.next_element_seed())
         assertEquals(Value.Str("second"), deSeq.next_element_seed())
         assertEquals(Value.Str("third"), deSeq.next_element_seed())
-
     }
 
     @Test

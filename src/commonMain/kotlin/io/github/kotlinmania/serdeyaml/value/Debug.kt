@@ -18,15 +18,16 @@ public fun fmt(n: Number, sb: StringBuilder) {
     sb.append(debugString(n))
 }
 
-public fun debugString(v: Value): String = when (v) {
-    is Value.Null -> "Null"
-    is Value.Bool -> "Bool(${v.value})"
-    is Value.Number -> "Number(${v.number})"
-    is Value.Str -> "String(\"${v.string}\")"
-    is Value.Sequence -> "Sequence ${v.sequence.map { debugString(it) }}"
-    is Value.Mapping -> debugString(v.mapping)
-    is Value.Tagged -> "Tagged(${v.tagged})"
-}
+public fun debugString(v: Value): String =
+    when (v) {
+        is Value.Null -> "Null"
+        is Value.Bool -> "Bool(${v.value})"
+        is Value.Number -> "Number(${v.number})"
+        is Value.Str -> "String(\"${v.string}\")"
+        is Value.Sequence -> "Sequence ${v.sequence.map { debugString(it) }}"
+        is Value.Mapping -> debugString(v.mapping)
+        is Value.Tagged -> "Tagged(${v.tagged})"
+    }
 
 public fun debugString(m: Mapping): String {
     val sb = StringBuilder("Mapping {")

@@ -53,25 +53,27 @@ public class Error(
             mark: Mark = Mark(0u, 0u, 0u),
             context: String? = null,
             contextMark: Mark = Mark(0u, 0u, 0u),
-        ): Error = Error(
-            kind = 1,
-            problem = CStr.fromString(problem),
-            problemOffset = mark.index,
-            problemMark = mark,
-            context = context?.let { CStr.fromString(it) },
-            contextMark = contextMark,
-        )
+        ): Error =
+            Error(
+                kind = 1,
+                problem = CStr.fromString(problem),
+                problemOffset = mark.index,
+                problemMark = mark,
+                context = context?.let { CStr.fromString(it) },
+                contextMark = contextMark,
+            )
 
         public fun emit_error(problem: String): Error = emitError(problem)
 
-        public fun emitError(problem: String): Error = Error(
-            kind = 2,
-            problem = CStr.fromString(problem),
-            problemOffset = 0u,
-            problemMark = Mark(0u, 0u, 0u),
-            context = null,
-            contextMark = Mark(0u, 0u, 0u),
-        )
+        public fun emitError(problem: String): Error =
+            Error(
+                kind = 2,
+                problem = CStr.fromString(problem),
+                problemOffset = 0u,
+                problemMark = Mark(0u, 0u, 0u),
+                context = null,
+                contextMark = Mark(0u, 0u, 0u),
+            )
     }
 }
 
@@ -82,7 +84,11 @@ public data class Mark(
 ) {
     public fun fmt(sb: StringBuilder) {
         if (line != 0uL || column != 0uL) {
-            sb.append("line ").append(line + 1u).append(" column ").append(column + 1u)
+            sb
+                .append("line ")
+                .append(line + 1u)
+                .append(" column ")
+                .append(column + 1u)
         } else {
             sb.append("position ").append(index)
         }
@@ -94,4 +100,3 @@ public data class Mark(
         return sb.toString()
     }
 }
-

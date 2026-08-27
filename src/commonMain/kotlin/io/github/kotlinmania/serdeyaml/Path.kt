@@ -12,22 +12,32 @@ public sealed class Path {
         override fun toString(): String = "."
     }
 
-    public data class Seq(val parent: Path, val index: Long) : Path() {
-        override fun toString(): String = "${parent}[$index]"
+    public data class Seq(
+        val parent: Path,
+        val index: Long,
+    ) : Path() {
+        override fun toString(): String = "$parent[$index]"
     }
 
-    public data class Map(val parent: Path, val key: String) : Path() {
+    public data class Map(
+        val parent: Path,
+        val key: String,
+    ) : Path() {
         override fun toString(): String {
             val prefix = if (parent is Root) "" else "$parent."
             return "$prefix$key"
         }
     }
 
-    public data class Alias(val parent: Path) : Path() {
+    public data class Alias(
+        val parent: Path,
+    ) : Path() {
         override fun toString(): String = parent.toString()
     }
 
-    public data class Unknown(val parent: Path) : Path() {
+    public data class Unknown(
+        val parent: Path,
+    ) : Path() {
         override fun toString(): String {
             val prefix = if (parent is Root) "" else "$parent."
             return "$prefix?"
@@ -38,4 +48,3 @@ public sealed class Path {
         sb.append(toString())
     }
 }
-
