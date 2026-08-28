@@ -182,7 +182,6 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing functions:** `into_inner`
 - **Types:** 3/8 matched (target 19)
 - **Missing types:** `Error`, `Event`, `ScalarStyle`, `Sequence`, `Mapping`
-- **Lint issues:** 3
 
 ### 15. libyaml.error
 
