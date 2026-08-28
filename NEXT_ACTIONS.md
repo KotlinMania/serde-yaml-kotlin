@@ -5,12 +5,12 @@ Based on AST analysis, here are the concrete next steps.
 ## Summary
 
 - **Files Present:** 24/24 (100.0%)
-- **Function parity:** 229/538 matched (target 555) — 42.6%
-- **Class/type parity:** 60/159 matched (target 163) — 37.7%
-- **Combined symbol parity:** 289/697 matched (target 718) — 41.5%
+- **Function parity:** 229/538 matched (target 552) — 42.6%
+- **Class/type parity:** 60/158 matched (target 149) — 38.0%
+- **Combined symbol parity:** 289/696 matched (target 701) — 41.5%
 - **Average inline-code cosine:** 0.08 (function body across 21 matched files)
 - **Average documentation cosine:** 0.14 (doc text across 21 matched files)
-- **Cheat-zeroed Files:** 20
+- **Cheat-zeroed Files:** 18
 - **Critical Issues:** 23 files with <0.60 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
@@ -227,18 +227,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/1 matched (target 0)
 - **Missing types:** `DisplayNumber`
 
-### 19. lib
-
-- **Target:** `serdeyaml.Lib [ZERO]`
-- **Similarity:** 0.00
-- **Dependents:** 0
-- **Priority Score:** 10110.0
-- **Functions:** 0/0 matched (target 3)
-- **Missing functions:** _none_
-- **Types:** 0/1 matched (target 2)
-- **Missing types:** `Sealed`
-
-### 20. libyaml.parser
+### 19. libyaml.parser
 
 - **Target:** `libyaml.Parser [ZERO]`
 - **Similarity:** 0.00
@@ -249,7 +238,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 9/9 matched (target 29)
 - **Missing types:** _none_
 
-### 21. loader
+### 20. loader
 
 - **Target:** `serdeyaml.Loader [ZERO]`
 - **Similarity:** 0.00
@@ -260,7 +249,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/2 matched (target 3)
 - **Missing types:** _none_
 
-### 22. value.from
+### 21. value.from
 
 - **Target:** `value.From [ZERO]`
 - **Similarity:** 0.00
@@ -271,7 +260,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 23. value.partial_eq
+### 22. value.partial_eq
 
 - **Target:** `value.PartialEq`
 - **Similarity:** 0.80
@@ -282,17 +271,6 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 24. libyaml.mod
-
-- **Target:** `libyaml.Mod [STUB]`
-- **Similarity:** 0.00
-- **Dependents:** 0
-- **Priority Score:** 10.0
-- **Functions:** 0/0 matched
-- **Missing functions:** _none_
-- **Types:** 0/0 matched (target 12)
-- **Missing types:** _none_
-
 ## Success Criteria
 
 For each file to be considered "complete":
@@ -301,4 +279,18 @@ For each file to be considered "complete":
 - All tests ported
 - Documentation ported
 - port-lint header present
+
+## Reexport / Wiring Modules
+
+These files match `reexport_modules` patterns in `.ast_distance_config.json`. They are filtered out of
+normal priority and missing-file ladders because they are wiring
+modules, not direct logic ports. Consult them for call-site routing;
+do not treat them as the next implementation target by default.
+
+### Matched
+
+| Source | Target | Path |
+|--------|--------|------|
+| `lib` | `serdeyaml.Lib` | `lib` |
+| `libyaml.mod` | `libyaml.Mod` | `libyaml/mod` |
 
