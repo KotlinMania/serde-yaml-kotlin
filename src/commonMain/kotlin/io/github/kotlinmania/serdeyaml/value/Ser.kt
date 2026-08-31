@@ -50,6 +50,8 @@ public class Serializer {
     public fun serialize_newtype_struct(name: String, value: Value): Value = value
 
     public fun serialize_newtype_variant(name: String, variantIndex: UInt, variant: String, value: Value): Value {
+        name.hashCode()
+        variantIndex.hashCode()
         val map = Mapping()
         map.insert(Value.Str(variant), value)
         return Value.Mapping(map)
