@@ -2,7 +2,7 @@
   "type": "port",
   "name": "serde-yaml-kotlin",
   "source": {
-    "path": "tmp/serde_yaml/src",
+    "path": "tmp",
     "lang": "rust"
   },
   "target": {
