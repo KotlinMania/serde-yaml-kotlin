@@ -18,6 +18,7 @@ public class Mapping internal constructor(
 
     public fun reserve(additional: Int) {
         // No-op for LinkedHashMap in Kotlin
+        additional.hashCode()
     }
 
     public fun shrink_to_fit() {
