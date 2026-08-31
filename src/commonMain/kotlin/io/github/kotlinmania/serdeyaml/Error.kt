@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml
 
-// port-lint: source error.rs
+// port-lint: source serde_yaml/src/error.rs
 
 import io.github.kotlinmania.serdeyaml.libyaml.Mark
 import io.github.kotlinmania.serdeyaml.libyaml.Error as LibyamlError

@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml
 
-// port-lint: source mapping.rs
+// port-lint: source serde_yaml/src/mapping.rs
 
 public typealias DuplicateKeyError = String
 public typealias HashLikeValue = Value
