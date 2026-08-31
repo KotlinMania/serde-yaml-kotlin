@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml.value
 
-// port-lint: source value/index.rs
+// port-lint: source serde_yaml/src/value/index.rs
 
 import io.github.kotlinmania.serdeyaml.Mapping
 import io.github.kotlinmania.serdeyaml.Number

@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml.libyaml
 
-// port-lint: source libyaml/cstr.rs
+// port-lint: source serde_yaml/src/libyaml/cstr.rs
 
 /**
  * C string and lossy display/debug formatting.

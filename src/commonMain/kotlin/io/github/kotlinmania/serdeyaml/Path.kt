@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml
 
-// port-lint: source path.rs
+// port-lint: source serde_yaml/src/path.rs
 
 public typealias Parent = Path
 

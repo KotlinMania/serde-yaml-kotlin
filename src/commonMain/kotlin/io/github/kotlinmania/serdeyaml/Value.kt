@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml
 
-// port-lint: source value/mod.rs
+// port-lint: source serde_yaml/src/value/mod.rs
 
 import io.github.kotlinmania.serdeyaml.value.Index
 import io.github.kotlinmania.serdeyaml.value.IntIndex

@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml
 
-// port-lint: source loader.rs
+// port-lint: source serde_yaml/src/loader.rs
 
 import io.github.kotlinmania.serdeyaml.value.Tag
 import io.github.kotlinmania.serdeyaml.value.TaggedValue

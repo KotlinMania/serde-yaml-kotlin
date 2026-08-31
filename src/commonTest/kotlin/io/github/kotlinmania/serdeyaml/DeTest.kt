@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml
 
-// port-lint: tests test_de.rs
+// port-lint: tests serde_yaml/src/test_de.rs
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
