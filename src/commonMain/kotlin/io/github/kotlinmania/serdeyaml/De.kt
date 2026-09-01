@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml
 
-// port-lint: source serde_yaml/src/de.rs
+// port-lint: source de.rs
 
 public class Progress(
     public var pos: Int = 0,

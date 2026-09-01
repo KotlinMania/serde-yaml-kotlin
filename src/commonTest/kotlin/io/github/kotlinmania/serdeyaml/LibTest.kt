@@ -1,4 +1,4 @@
-// port-lint: tests serde_yaml/src/test_serde.rs
+// port-lint: tests tests/test_serde.rs
 package io.github.kotlinmania.serdeyaml
 
 import kotlin.test.Test

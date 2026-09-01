@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml.libyaml
 
-// port-lint: source serde_yaml/src/libyaml/util.rs
+// port-lint: source libyaml/util.rs
 
 /**
  * Pure Kotlin representation of Owned memory pointer.

@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml.value
 
-// port-lint: source serde_yaml/src/value/tagged.rs
+// port-lint: source value/tagged.rs
 
 import io.github.kotlinmania.serdeyaml.Value
 

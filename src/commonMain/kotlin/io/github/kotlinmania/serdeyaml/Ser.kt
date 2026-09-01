@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml
 
-// port-lint: source serde_yaml/src/ser.rs
+// port-lint: source ser.rs
 
 public class Indent(
     public var level: Int = 0,
