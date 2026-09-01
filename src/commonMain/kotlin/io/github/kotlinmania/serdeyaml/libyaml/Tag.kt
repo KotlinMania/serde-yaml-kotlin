@@ -1,6 +1,6 @@
 package io.github.kotlinmania.serdeyaml.libyaml
 
-// port-lint: source serde_yaml/src/libyaml/tag.rs
+// port-lint: source libyaml/tag.rs
 
 /**
  * YAML tag representation.
