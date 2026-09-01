@@ -17,7 +17,15 @@
   },
   "reexport_modules": [
     "lib",
+    "lib.rs",
+    "serde_yaml/src/lib.rs",
     "libyaml/mod",
-    "libyaml.mod"
+    "libyaml.mod",
+    "libyaml/mod.rs",
+    "serde_yaml/src/libyaml/mod.rs",
+    "value/mod",
+    "value.mod",
+    "value/mod.rs",
+    "serde_yaml/src/value/mod.rs"
   ]
 }
