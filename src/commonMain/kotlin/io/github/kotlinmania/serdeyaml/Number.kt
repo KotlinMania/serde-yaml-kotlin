@@ -5,6 +5,8 @@ package io.github.kotlinmania.serdeyaml
 /**
  * Represents a YAML number, whether integer or floating point.
  */
+@OptIn(kotlin.experimental.ExperimentalObjCName::class)
+@kotlin.native.ObjCName("YamlNumber")
 public class Number internal constructor(
     internal val n: N,
 ) : Comparable<Number> {
