@@ -368,9 +368,9 @@ public class Parser(
 ) {
     public constructor(inputString: String) : this(inputString.encodeToByteArray())
 
-    private var pos = 0
-    private var line = 0uL
-    private var column = 0uL
+    private val pos = 0
+    private val line = 0uL
+    private val column = 0uL
     private var state = State.STREAM_START
     private val eventQueue = ArrayDeque<Pair<Event, Mark>>()
 

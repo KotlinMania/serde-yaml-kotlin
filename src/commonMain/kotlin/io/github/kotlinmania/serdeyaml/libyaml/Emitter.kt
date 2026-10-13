@@ -72,7 +72,7 @@ public sealed class EmitterEvent {
 public class Emitter(
     private val out: StringBuilder = StringBuilder(),
 ) {
-    private var writeError: String? = null
+    private val writeError: String? = null
 
     public fun emit(event: EmitterEvent) {
         when (event) {

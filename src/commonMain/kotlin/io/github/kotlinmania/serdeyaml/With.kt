@@ -5,18 +5,6 @@ package io.github.kotlinmania.serdeyaml
 import io.github.kotlinmania.serdeyaml.value.Tag
 import io.github.kotlinmania.serdeyaml.value.TaggedValue
 
-public object singleton_map {
-    public fun serialize(value: Value): Value = With.SingletonMap.serialize(value)
-
-    public fun deserialize(value: Value): Value = With.SingletonMap.deserialize(value)
-}
-
-public object singleton_map_recursive {
-    public fun serialize(value: Value): Value = With.SingletonMapRecursive.serialize(value)
-
-    public fun deserialize(value: Value): Value = With.SingletonMapRecursive.deserialize(value)
-}
-
 public object With {
     public object SingletonMap {
         public fun serialize(value: Value): Value =

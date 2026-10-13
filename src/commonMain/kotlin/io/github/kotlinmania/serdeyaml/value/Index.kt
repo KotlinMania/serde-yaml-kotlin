@@ -2,7 +2,6 @@ package io.github.kotlinmania.serdeyaml.value
 
 // port-lint: source value/index.rs
 
-import io.github.kotlinmania.serdeyaml.Mapping
 import io.github.kotlinmania.serdeyaml.Number
 import io.github.kotlinmania.serdeyaml.Value
 
