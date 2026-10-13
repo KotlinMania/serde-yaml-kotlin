@@ -239,7 +239,7 @@ internal class YamlParser(
             if (curIndent < indent) break
             val trimmed = line.trim()
             if (curIndent == indent && (trimmed.startsWith("- ") || trimmed == "-" || trimmed.startsWith("-#") || trimmed.startsWith("- #"))) {
-                var afterDash =
+                val afterDash =
                     if (trimmed.startsWith("- ")) {
                         trimmed.substring(2).trim()
                     } else if (trimmed.startsWith("-")) {
@@ -407,47 +407,6 @@ internal class YamlParser(
         return Value.Str(sb.toString())
     }
 
-    private fun parseBlockScalar(indicator: String): Value.Str {
-        val stripChomping = indicator.contains("-")
-        val keepChomping = indicator.contains("+")
-        val isFolded = indicator.startsWith(">")
-        skipBlanksAndComments()
-        if (lineIdx >= lines.size) return Value.Str("")
-        val baseIndent = getIndent(lines[lineIdx])
-        if (baseIndent == 0) {
-            val trimmedLine = lines[lineIdx].trim()
-            if (trimmedLine.startsWith("@") || trimmedLine.startsWith("`")) {
-                val mark =
-                    io.github.kotlinmania.serdeyaml.libyaml
-                        .Mark(0uL, lineIdx.toULong(), 0uL)
-                throw Error(ErrorImpl.Message("scan error: invalid character '$trimmedLine'", Pos(mark, ".")))
-            }
-        }
-        val sb = StringBuilder()
-        while (lineIdx < lines.size) {
-            val line = lines[lineIdx]
-            val indent = getIndent(line)
-            if (line.trim().isNotEmpty() && indent < baseIndent) break
-            lineIdx++
-            val content = if (line.length >= baseIndent) line.substring(baseIndent) else ""
-            if (sb.isNotEmpty()) {
-                if (isFolded && content.isNotEmpty()) {
-                    sb.append(" ")
-                } else {
-                    sb.append("\n")
-                }
-            }
-            sb.append(content)
-        }
-        var res = sb.toString()
-        if (!keepChomping && !stripChomping) {
-            res = res.trimEnd('\n') + "\n"
-        } else if (stripChomping) {
-            res = res.trimEnd('\n')
-        }
-        return Value.Str(res)
-    }
-
     private fun parseFlowMapping(s: String): Value {
         val inner = s.substring(1, s.length - 1).trim()
         val mapping = Mapping()
@@ -513,7 +472,7 @@ internal class YamlParser(
     }
 
     private fun parseScalar(s: String): Value {
-        var str = s.trim()
+        val str = s.trim()
 
         if (str.startsWith("@") || str.startsWith("`") || str == "]" || str == "}") {
             throw Error("syntax error: invalid plain scalar '$str'")
@@ -567,7 +526,7 @@ internal class YamlParser(
                 val scalarVal =
                     if (rest.isEmpty()) {
                         skipBlanksAndComments()
-                        if (lineIdx < lines.size) parseBlockNode(getIndent(lines[lineIdx])).asStr() ?: "" else ""
+                        if (lineIdx < lines.size) parseBlockNode(getIndent(lines[lineIdx])).asStr().orEmpty() else ""
                     } else {
                         rest
                     }

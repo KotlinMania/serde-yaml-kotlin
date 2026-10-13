@@ -3,7 +3,6 @@ package io.github.kotlinmania.serdeyaml.value
 // port-lint: source value/de.rs
 
 import io.github.kotlinmania.serdeyaml.Error
-import io.github.kotlinmania.serdeyaml.Mapping
 import io.github.kotlinmania.serdeyaml.Value
 import io.github.kotlinmania.serdeyaml.Deserializer as TopDeserializer
 

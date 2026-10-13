@@ -119,7 +119,7 @@ public class Serializer(
         }
         for (i in seq.indices) {
             if (i > 0 || !inSeq) {
-                if (i > 0 || out.isNotEmpty() && !out.endsWith("\n")) {
+                if (i > 0 || (out.isNotEmpty() && !out.endsWith("\n"))) {
                     out.append("\n")
                 }
                 out.append("  ".repeat(indent))
