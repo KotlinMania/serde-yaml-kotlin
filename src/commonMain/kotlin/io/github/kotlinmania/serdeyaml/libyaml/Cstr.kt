@@ -84,5 +84,3 @@ public class CStr(
         }
     }
 }
-
-public typealias Cstr = CStr
